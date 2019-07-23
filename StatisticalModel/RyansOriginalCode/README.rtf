@@ -1,0 +1,30 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf500
+{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww18240\viewh13840\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Each zooplankton subfolder contains
+\f1\b0 \
+Statistical Code - e.g. \'93Chaetog Stat Code.R\'94\
+\
+** You need to update the work_direct_main line (around line 12) in each of the stat codes to suit\
+your computer\
+\
+COPEPOD Dataset, downloaded on March 23 2019, with SST, chlo and bathymetry appended - e.g. \'93chaetognaths_2019.csv\'94\
+\
+Also note that the first 75% of each stat code file is wrangling the data, before getting to the GAM. I\'92ve clearly delineated this in the scripts. This means that, after setting the working directory at the top you can go straight to the gam section, load the cleaned up data and start modelling\
+\
+
+\f0\b \'91Zoo Data Summary\'92 script\
+
+\f1\b0 Contains the \'91plot_zoo\'92 function, which creates plots of the data. The plot_zoo function takes three arguments\
+1 - the data file\
+2 - the name of the zooplankton group, appended to the name of the saved plots\
+3 - save_plots if true, will save plots to the current zooplankton subfolder as png, if false plots will display in the plot window straight away\
+\
+
+\f0\b Interpolate GAMs subfolder
+\f1\b0 \
+This folder contains code to create global maps of zooplankton groups. Proportion Model interpolates the GAMs to create global maps using the model_zoo function from \'93Zoo Prediction Function\'94 script. It plots abundance and proportion maps using the plot_all_abunds from \'93Zoo Prediction Function\'94 script. It also plots proportions against sst and chlorophyll. }
