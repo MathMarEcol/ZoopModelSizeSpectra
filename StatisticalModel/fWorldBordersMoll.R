@@ -2,7 +2,7 @@
 
 fWorldBordersMoll <- function(){
   library(sf)
-  shapef <- "~/Dropbox/EcosystemEfficiency/StatisticalModel/ZoopAbundanceModels/WorldBorders/TM_WORLD_BORDERS-0.3.shp"
+  shapef <- "~/GitHub/CommonResources/Data/WorldBorders/TM_WORLD_BORDERS-0.3.shp"
   
   # Change projection of input shapefile to mollweide
   wb_sf <- read_sf(shapef)
