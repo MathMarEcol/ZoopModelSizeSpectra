@@ -1,2 +1,0 @@
-load("/Users/jason/Dropbox/EcosystemEfficiency/StatisticalModel/ZooplanktonModels/IMOS_Final.rds")
-load("/Users/jason/Dropbox/EcosystemEfficiency/StatisticalModel/ZooplanktonModels/COPEPOD_Final.rds")
