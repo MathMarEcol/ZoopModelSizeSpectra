@@ -89,6 +89,6 @@ imos <- rbind(Other, SO2)
 imos$Transect <- as.factor(imos$Transect)
 
 # save data
-saveRDS(imos,'IMOS_Final.rds')
+saveRDS(imos,'DatabaseOutput/IMOS_Final.rds')
 
 rm(imos)

@@ -3,7 +3,7 @@ rm(list = ls())
 library(tidyverse)
 library(lubridate)
 
-source("fZerosByUniqueCruise.R")
+source("func/fZerosByUniqueCruise.R")
 
 Retain <- c("ShipCruise","Transect","UniqueSampleID","Year","Month","Day","TimeGMT","TimeLocal",
             "Latitude","Longitude","TotAbundance","Depth","Upper_Z","Lower_Z","Tow","Gear",
@@ -170,6 +170,6 @@ dat0 <- fZerosByUniqueCruise(dat,uni)
 
 
 # save data
-saveRDS(dat0,'COPEPOD_Final.rds')
+saveRDS(dat0,'DatabaseOutput/COPEPOD_Final.rds')
 
 rm(dat, dat_sum, FeedingType, Retain)

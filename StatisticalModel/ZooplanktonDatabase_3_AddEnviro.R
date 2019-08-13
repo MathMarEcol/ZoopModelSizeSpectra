@@ -4,13 +4,13 @@ library(yaImpute)
 library(lubridate)
 library(raster)
 
-source("fAddEnviro.R")
+source("func/fAddEnviro.R")
 
 EnviroDir <- "Data/EnvironmentalData"
 bathy_file <- paste0(EnviroDir,"/","GEBCO_2014_2D.nc")
 
 ########### IMPORT ZOOPLANKTON DATA ###########
-dat <- readRDS("LatestDatabaseOuput_Final.rds")
+dat <- readRDS("DatabaseOutput/LatestDatabaseOuput_Final.rds")
 
 dat <- dat %>% mutate(
   Day = replace(Day,is.na(Day), 15)) # Make all missing days to the middle of the month
@@ -92,6 +92,6 @@ hist(dat$SST)
 # hist(log10(salps$TotAbundance))
 # hist(salps$Mesh[salps$Mesh<501])
 
-saveRDS(dat, file = "LatestDatabaseOuput_Final_Enviro.rds")
+saveRDS(dat, file = "DatabaseOutput/LatestDatabaseOuput_Final_Enviro.rds")
 
 

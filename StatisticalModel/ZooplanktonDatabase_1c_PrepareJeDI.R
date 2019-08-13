@@ -164,4 +164,4 @@ rm(jedi2) # Clean up
 hist(jedi$TimeLocal) # Problem with the JeDI time distribution. I suspect many day or night samples have been placed at 12 am/pm
 summary(jedi)
 
-saveRDS(jedi,'JeDI_Final.rds')
+saveRDS(jedi,'DatabaseOutput/JeDI_Final.rds')

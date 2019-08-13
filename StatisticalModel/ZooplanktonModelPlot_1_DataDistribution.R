@@ -3,7 +3,7 @@ library(sp)
 library(tidyverse)
 library(sf)
 
-source("fWorldBordersMoll.R")
+source("func/fWorldBordersMoll.R")
 
 # Define themes for plots 
 theme_opts <- list(theme(panel.grid.minor = element_blank(),

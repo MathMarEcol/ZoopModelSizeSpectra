@@ -3,17 +3,17 @@ library(lubridate)
 library(raster)
 library(rgdal)
 
-imos <- read_rds("IMOS_Final.rds")
-sahfos <- read_rds("SAHFOS_Final.rds")
-copepod <- read_rds("COPEPOD_Final.rds")
-jedi <- read_rds("JeDI_Final.rds")
-L4 <- read_rds("L4_Final.rds")
-calcofi <- read_rds("CalCOFI_Final.rds")
-globec <- read_rds("GLOBEC_Final.rds")
-henschke <- read_rds("Henschke_Final.rds")
-warreen <- read_rds("Warreen_Final.rds")
-habas <- read_rds("Habasque_Final.rds")
-papa <- read_rds("OSPapa_Final.rds")
+imos <- read_rds("DatabaseOutput/IMOS_Final.rds")
+sahfos <- read_rds("DatabaseOutput/SAHFOS_Final.rds")
+copepod <- read_rds("DatabaseOutput/COPEPOD_Final.rds")
+jedi <- read_rds("DatabaseOutput/JeDI_Final.rds")
+L4 <- read_rds("DatabaseOutput/L4_Final.rds")
+calcofi <- read_rds("DatabaseOutput/CalCOFI_Final.rds")
+globec <- read_rds("DatabaseOutput/GLOBEC_Final.rds")
+henschke <- read_rds("DatabaseOutput/Henschke_Final.rds")
+warreen <- read_rds("DatabaseOutput/Warreen_Final.rds")
+habas <- read_rds("DatabaseOutput/Habasque_Final.rds")
+papa <- read_rds("DatabaseOutput/OSPapa_Final.rds")
 
 dat <- rbind(copepod, jedi, imos, sahfos, L4, calcofi, globec, henschke, warreen, habas, papa)
 # 
@@ -138,26 +138,5 @@ table(dat2$Group)
 # Check ShipCruise
 levels(dat2$ShipCruise)
 
-saveRDS(dat2, file = "LatestDatabaseOuput_Final.rds")
+saveRDS(dat2, file = "DatabaseOutput/LatestDatabaseOuput_Final.rds")
 ######################## 4. END Pre-processing data #################
-
-
-
-
-# 
-# 
-# 
-# # Latitude cut-off - e.g. 15% of data beyond this Latitude
-# hist(dat2$Latitude)
-# Percent <- 2.5 # In each tail
-# Length <- length(dat2$Latitude)
-# # Length <- 100
-# LatSorted <- sort(dat2$Latitude)
-# Lower <- round(Percent / 100 * Length)
-# Upper <- round((100 - Percent) / 100 * Length)
-# LatLower <- LatSorted[Lower]
-# LatUpper <- LatSorted[Upper]
-# # Run this line to use a lat cut-off
-# # dat <- dat %>% filter(Latitude >= LatLower & Latitude <= LatUpper)
-# rm(LatSorted)
-

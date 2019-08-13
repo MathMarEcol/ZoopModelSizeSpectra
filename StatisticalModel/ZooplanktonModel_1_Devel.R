@@ -27,14 +27,14 @@ library(lme4)
 library(MuMIn) # r2 for mixed models
 library(lmerTest) # p-levels for mixed models # install.packages("lmerTest")
 
-source("fHarmonic.R") # Harmonic function
-source("fAddWeighting.R") # Because CPR is 90% of the data, use weights for individual Groups to give CPR 50% weight and Nets 50% weight
-source("fPlotLMERs_Abundance.R") # Plot the Linear Mixed Effects Models
-source("fPlotAbundanceLM.R") # Plot the Linear Mixed Effects Models
-source("fPlotAbundanceLM_GearMesh.R") # Plot the Linear Mixed Effects Models
-source("fSummariseLMERs.R") # Summaries calculating r2 and diagnostic plots
+source("func/fHarmonic.R") # Harmonic function
+source("func/fAddWeighting.R") # Because CPR is 90% of the data, use weights for individual Groups to give CPR 50% weight and Nets 50% weight
+source("func/fPlotLMERs_Abundance.R") # Plot the Linear Mixed Effects Models
+source("func/fPlotAbundanceLM.R") # Plot the Linear Mixed Effects Models
+source("func/fPlotAbundanceLM_GearMesh.R") # Plot the Linear Mixed Effects Models
+source("func/fSummariseLMERs.R") # Summaries calculating r2 and diagnostic plots
 
-dat <- readRDS("LatestDatabaseOuput_Final_Enviro.rds") # n = 1,009,208
+dat <- readRDS("DatabaseOutput/LatestDatabaseOuput_Final_Enviro.rds") # n = 1,009,208
 
 dat <- dat %>% 
   mutate(

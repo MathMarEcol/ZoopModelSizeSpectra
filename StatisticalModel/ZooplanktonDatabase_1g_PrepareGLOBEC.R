@@ -15,7 +15,7 @@
 # from densities using length-weight regressions found in the literature." (W.T.Peterson, 
 # et al., 2002, p.392)
 
-source("fZerosByUniqueCruise.R")
+source("func/fZerosByUniqueCruise.R")
 
 library(ncdf4)
 library(tidyverse)
@@ -119,7 +119,7 @@ dat <- dat0 %>%
   select(Retain)
 
 # save data
-saveRDS(dat,'GLOBEC_Final.rds')
+saveRDS(dat,'DatabaseOutput/GLOBEC_Final.rds')
 
 
 # THE CODE BELOW IS TO FIND THE CLASSIFICATION INFO FOR ALL THE UNMATCHED TAXA

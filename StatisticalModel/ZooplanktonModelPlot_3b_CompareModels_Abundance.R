@@ -9,7 +9,7 @@ library(raster)
 library(tidyverse)
 library(ggpubr)
 
-source("fPlotGlobalComparison.R")
+source("func/fPlotGlobalComparison.R")
 latlonCRS <- CRS("+proj=longlat +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m")
 
 Groups <- read_csv("../../NumericalModel/Multi-ZooSizeSpectrumModel/TestGroups.csv") # Load in functional group information

@@ -7,8 +7,8 @@ library(sf)
 library(ggpubr)
 library(splines)
 
-source("fHarmonic.R")
-source("fPlotGlobalGAMM.R")
+source("func/fHarmonic.R")
+source("func/fPlotGlobalGAMM.R")
 
 ####################################################
 NthMonth <- c("01January", "02February","03March","04April","05May","06June",
