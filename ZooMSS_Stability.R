@@ -1,15 +1,17 @@
-########## NEWTON RAPHSON
+## Newton Raphson stability analysis code for ZooMSS v1 (see Heneghan et al. 2016: https://doi.org/10.3389/fmars.2016.00201)
+## Author: Ryan Heneghan
+## Last updated: September 2019
 
+########## NEWTON RAPHSON
 ## du.calc:
 ## u_initial is the starting size spectrum, z.b is an internal indicator
 ## specific to the model, it indicates whether the function should use an
-## m-value to calculate zoo PPMR, or just use a fixed PPMR - don't worry 
-## about it for your stuff
+## m-value to calculate zoo PPMR, or just use a fixed PPMR
 
 du.calc <- function(u_initial, z.b){
 # Run the PZF model, output is a matrix of size spectrum for each time step
 # the model is run (usually just N = 2, so only 2 size spectra)
-out <- PZF.solve(state = u_initial, parms = params, test = 0, zoo.beta = z.b)[1]
+out <- PZF.solve(state = u_initial, parms = params, test = 0)[1]
 
 # Take the last time step's size spectrum as the new size spectrum to calculate
 # du for each size class
