@@ -1,5 +1,7 @@
 # Model code for Zooplankton Model of Size Spectrum (ZooMSS v1)
-PUBLISHED IN HENEGHAN ET AL., 2016 (SEE PDF)
+Published in Heneghan et al. 2016 (pdf attached)
+https://doi.org/10.3389/fmars.2016.00201
+
 ## SCRIPTS 
 ZooMSS_Shell.R: You run the model from this script.    
 ZooMSS_Parameters.R: Parameters for the model.   
