@@ -1,5 +1,5 @@
 # Model code for Zooplankton Model of Size Spectrum (ZooMSS v1)
-Published in Heneghan et al. 2016 (pdf attached)
+Published in Heneghan et al. 2016 (pdf attached)  
 https://doi.org/10.3389/fmars.2016.00201
 
 ## SCRIPTS 
