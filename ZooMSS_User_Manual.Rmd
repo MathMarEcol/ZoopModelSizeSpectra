@@ -1,6 +1,15 @@
-# Model code for Zooplankton Model of Size Spectrum (ZooMSS v2)
+---
+title: "ZooMSS User Manual"
+author: "The UQ ZooMSS Team"
+date: "18/03/2020"
+output: pdf_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+Note: This is still very much a work in progress.
 
 ## Overview of ZooMSS
 
@@ -36,8 +45,34 @@ ZooMSS requires two input files:
 2. And RDS file which contains all environmental data for each grid cell. This includes chlorophyll a (chlo), sea surface temperature (sst), bathymetry (bathy), phytoplankton slope and intercept, and latitude/longitude which is useful for plotting.   
 
 
+### Parameter Values
+
+Insert table from Heneghan et al (in review)
+
+### Output
+
+TBC
+
 ### Running
 To run the model, you simply need to provide the relevent information in Setup_RUN_NAME.R and run the script.
+
+### Plotting
+
+TBC
+
+## Useful reading
+
+Datta Paper
+The other thing to look at would be some of the numerical methods we use 
+  - Simpson’s method for the growth, mortality and diffusion integrals and 
+  - a semi-implicit upward finite difference scheme to solve the PDE at each time step. 
+  For the PDE numerical method, check out Appendix 1 of my thesis (attached)
+  Info on the difference scheme in Press’ 2007 book: Numerical Recipes, the Art of Scientific Computing (Available at UQ Library)
+
+
+On 1 Apr 2020, at 06:50, Richardson, Anthony (O&A, St. Lucia) <Anthony.Richardson@csiro.au> wrote:
+
+<Datta et al. - 2010 - A Jump-Growth M odel for Predator–Prey Dynamics De.pdf>
 
 ## Publications
 
@@ -45,11 +80,16 @@ To run the model, you simply need to provide the relevent information in Setup_R
 
 2. Heneghan, R.F., Everett, J.D., Sykes, P., Batten, S.D., Edwards, M., Takahashi, K., Suthers, I.M.,  Blanchard, J.L., Richardson, A.J., in review, A global size-spectrum model of the marine ecosystem that resolves zooplankton composition. Ecological Modelling
 
+## References
+
+TBC
 
 ## Getting Help
 
-If you are running the model come across a problem, raise an issue on GitHub: https://github.com/MathMarEcol/ZoopSizeSpectraModel/issues
+If you are running the model come across a problem, raise an issue on GitHub: https://github.com/MathMarEcol/ZooMSS/issues
 
 If you find some errors, or just want to improve the model, we'd love you to go ahead and make the changes and then submit a pull request for us to check and approve.
+
+Same for this manual. If there is information lacking, errors etc, please fix it rather than just reporting it. This should be a team effort.
 
 
