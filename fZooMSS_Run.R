@@ -95,10 +95,11 @@ fZooMSS_Run <- function(model){
     rm(sw2, ap2)
 
     ### DO DIFFUSION
-    dim(dynam_diffkernel) <- c(ngrps*ngrid, ngrid)
-    cs <- .colSums(diffusion_multiplier * t(dynam_diffkernel), m = ngrid, n = ngrps*ngrid)
-    dim(cs) <- c(ngrps, ngrid)
-    diff <- diff_phyto + cs
+    # dim(dynam_diffkernel) <- c(ngrps*ngrid, ngrid)
+    # cs <- .colSums(diffusion_multiplier * t(dynam_diffkernel), m = ngrid, n = ngrps*ngrid)
+    # dim(cs) <- c(ngrps, ngrid)
+    # diff <- diff_phyto + cs
+    diff <- Z * 0
 
     # sw3 <- sweep(dynam_diffkernel, 3, diffusion_multiplier, '*')
     # ap3 <- aperm(sw3, c(3,1,2))
@@ -122,8 +123,8 @@ fZooMSS_Run <- function(model){
 
     # The original Base R code for the MvF equation
     N <- fZooMSS_MvF_BaseR(ngrps, curr_min_size, curr_max_size,
-                            A_iter, C_iter, N_iter, S_iter,
-                            A, B, C, N, S)
+                           A_iter, C_iter, N_iter, S_iter,
+                           A, B, C, N, S)
 
     # N <- fZooMSS_MvF_Rcpp(cngrps=ngrps, cN_iter=N_iter,
     #                        cA_iter=A_iter, cC_iter=C_iter, cS_iter=S_iter,
