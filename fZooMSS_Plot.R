@@ -121,7 +121,9 @@ fZooMSS_Plot_PredTimeSeries <- function(dat){
 }
 
 
-fZooMSS_PlotGroups <- function(Groups){
+# Written by Jason Everett (UQ/CSIRO/UNSW) and Yiwen Lu (UQ)
+# Last Updated 7th October 2021
+fZooMSS_PlotPredPrey <- function(Groups){
 
   Groups <- Groups %>%
     mutate(W0_prey = case_when(is.na(PPMR) ~ W0 - log10(fZooMSS_betas(fZooMSS_g2esd(10^W0), PPMRscale)), # Add prey size
@@ -133,7 +135,7 @@ fZooMSS_PlotGroups <- function(Groups){
     geom_segment(aes(x = Species, xend = Species, y = W0, yend = Wmax, colour = Species), size = 7, alpha = 0.6, show.legend = FALSE) +
     geom_segment(aes(x = Species, xend = Species, y = W0_prey, yend = WMax_prey, colour = Species), size = 3, alpha = 1, show.legend = FALSE) +
     coord_flip() +
-    scale_colour_manual(values = group_frame$Colour, breaks = group_frame$Species) +
+    scale_colour_manual(values = Groups$PlotColour, breaks = Groups$Species) +
     scale_x_discrete(limits = as.character(Groups$Species))+
     ylab(expression(paste("log"[10],"Body Size (g)"))) +
     theme_bw() +

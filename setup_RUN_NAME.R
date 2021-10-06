@@ -60,7 +60,14 @@ library(purrr)
 library(patchwork)
 source("fZooMSS_Plot.R")
 
+# Plot predator-prey
+# Have a look at the predator-prey interactions
+ggPP <- fZooMSS_PlotPredPrey(Groups)
+
+# Plot Size Spectra
 ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)
+
+# Plot PPMRs
 ggPPMR <- fZooMSS_Plot_PPMR(out)
 
 ## If you have saved the timesteps you can plot the timeseries
