@@ -243,3 +243,16 @@ fZooMSS_TrophicLevel <- function(diet_matrix){
   return(start_dynam_tl)
 
 } # End trophic level function
+
+
+
+# Convert body mass g to ESD (um)
+fZooMSS_g2esd <- function(w){
+  ESD <- 2*(3*w*1e12/(4*pi))^(1/3)
+  }
+
+# Wirtz's equation to calculate PPMR
+fZooMSS_betas <- function(ESD, m){
+  beta <- (exp(0.02*log(ESD)^2 - m + 1.832))^3
+}
+

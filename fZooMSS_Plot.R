@@ -119,3 +119,24 @@ fZooMSS_Plot_PredTimeSeries <- function(dat){
     labs(subtitle = "Mortality Rate") +
     xlab("Time (Years)")
 }
+
+
+fZooMSS_PlotGroups <- function(Groups){
+
+  Groups <- Groups %>%
+    mutate(W0_prey = case_when(is.na(PPMR) ~ W0 - log10(fZooMSS_betas(fZooMSS_g2esd(10^W0), PPMRscale)), # Add prey size
+                               !is.na(PPMR) ~ W0 - log10(PPMR)), # Add prey size
+           WMax_prey = case_when(is.na(PPMR) ~ Wmax - log10(fZooMSS_betas(fZooMSS_g2esd(10^Wmax), PPMRscale)),
+                                 !is.na(PPMR) ~ Wmax - log10(PPMR))) # Add prey size
+
+  gg <- ggplot(data = Groups) +
+    geom_segment(aes(x = Species, xend = Species, y = W0, yend = Wmax, colour = Species), size = 7, alpha = 0.6, show.legend = FALSE) +
+    geom_segment(aes(x = Species, xend = Species, y = W0_prey, yend = WMax_prey, colour = Species), size = 3, alpha = 1, show.legend = FALSE) +
+    coord_flip() +
+    scale_colour_manual(values = group_frame$Colour, breaks = group_frame$Species) +
+    scale_x_discrete(limits = as.character(Groups$Species))+
+    ylab(expression(paste("log"[10],"Body Size (g)"))) +
+    theme_bw() +
+    theme(axis.title.y = element_blank())
+
+}
