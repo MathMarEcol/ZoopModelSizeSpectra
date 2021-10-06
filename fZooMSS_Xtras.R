@@ -52,9 +52,9 @@ fZooMSS_SpeciesCarbonBiomass <- function(res, vmdl) {
 }
 
 # Summarise the biomass for each grid-cell by size-class
-fZooMSS_SizeBiomass = function(res,w) {
-  if (dim(res[[1]])[2] != length(w)){print("error")}
-  Biomass <- map(res, function(x) apply(sweep(x, 2, w, '*'), 2, sum))
+fZooMSS_SizeBiomass = function(res,vmdl) {
+  if (dim(res[[1]])[2] != length(vmdl$param$w)){print("error")}
+  Biomass <- map(res, function(x) apply(sweep(x, 2, vmdl$param$w, '*'), 2, sum))
   return(Biomass)
 }
 

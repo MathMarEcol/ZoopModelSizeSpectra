@@ -15,13 +15,13 @@
 source("fZooMSS_Model.R") #source the model code
 source("fZooMSS_Xtras.R")
 
-enviro_data <- readRDS("envirodata_fiveDeg_20200317.rds") # Load environmental data.
+# enviro_data <- readRDS("envirodata_fiveDeg_20200317.rds") # Load environmental data.
 
 # You can also create your own environmental data using the below.
-# enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = 1,
-#                                                       sst = 5,
-#                                                       chlo = 2,
-#                                                       dt = 0.01))
+enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = 1, # Increment cellID so the savename changes
+                                                      sst = 5,
+                                                      chlo = 2,
+                                                      dt = 0.01))
 
 enviro_data$tmax <- 100 # Set length of simulation (years)
 
@@ -56,13 +56,34 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(tibble)
+library(purrr)
+library(patchwork)
 source("fZooMSS_Plot.R")
 
-(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out))
-(ggPPMR <- fZooMSS_Plot_PPMR(out))
+ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)
+ggPPMR <- fZooMSS_Plot_PPMR(out)
 
 ## If you have saved the timesteps you can plot the timeseries
-(ggAbundTS <- fZooMSS_Plot_AbundTimeSeries(out))
-(ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out))
-(ggPredTS <- fZooMSS_Plot_PredTimeSeries(out))
+ggAbundTS <- fZooMSS_Plot_AbundTimeSeries(out)
+ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out)
+ggPredTS <- fZooMSS_Plot_PredTimeSeries(out)
+(ggAbundTS / ggGrowthTS / ggPredTS) + plot_layout(guides = "collect")
 
+
+# Get abundance by size class
+Ssize <- fZooMSS_SumSpecies(list(out$abundances))[[1]]
+
+# Get abundance by species
+Sspecies <- fZooMSS_SumSize(list(out$abundances))[[1]]
+
+# Get the wet weight of each size class
+WWsize <- fZooMSS_SizeBiomass(list(out$abundances), out$model)[[1]] # Function returns a list so we get the first
+
+# Get the wet weight of each group
+WWspecies <- fZooMSS_SpeciesBiomass(list(out$abundances), out$model)[[1]] # Function returns a list so we get the first
+
+# Get the carbon biomass of each group
+C <- fZooMSS_SpeciesCarbonBiomass(list(out$abundances), out$model)[[1]] # Function returns a list so we get the first
+
+# Get the trophic level of each group
+TL <- fZooMSS_TrophicLevel(out$diets)
