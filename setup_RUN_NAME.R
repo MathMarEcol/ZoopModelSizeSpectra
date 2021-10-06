@@ -1,30 +1,44 @@
-## An extension of the model published in Heneghan et al., (2016):
-## Models multiple zooplankton functional groups, and three fish groups
-## This code is to run the model across multiple cores
+## This is the development version of the model published in Heneghan et al., (2020):
+## This version models multiple zooplankton functional groups, and three fish groups
 ##
-## Last updated 28th April 2020
+## If you save timesteps, you can examine the model dynamics at
+##   https://jaseeverett.shinyapps.io/ZooMSS_Dashboard/
+##  Alternatively you can clone the ZooMSS_Dashboard from Github
+##   https://github.com/MathMarEcol/ZooMSS_Dashboard
+##
+##
+## Code written by Dr Jason Everett (UQ/UNSW/CSIRO), Dr Ryan Heneghan (QUT) and Mr Patrick Sykes (U)
+## Last updated 6th October 2021
+
 
 # library(Rcpp) # Only needed if we are running with Rcpp code.
-
 source("fZooMSS_Model.R") #source the model code
+source("fZooMSS_Xtras.R")
 
-enviro_data <- readRDS("envirofull_20200317.RDS") # Load environmental data
-enviro_data$tmax <- 25 # Set length of simulation (years)
+enviro_data <- readRDS("envirodata_fiveDeg_20200317.rds") # Load environmental data.
 
-jobname <- 'DATE_JOBNAME' #job name used on queue: Recommend: YYYYMMDD_AbbrevExperimentName.
-enviro_row <- 1 # Which row of the environmental data do you want to run if HPC=FALSE
+# You can also create your own environmental data using the below.
+# enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = 1,
+#                                                       sst = 5,
+#                                                       chlo = 2,
+#                                                       dt = 0.01))
 
-HPC <- FALSE # Is this being run on a HPC or will we choose the row
-SaveTimeSteps <- TRUE # Should we save all time steps
+enviro_data$tmax <- 100 # Set length of simulation (years)
 
-Groups <- read.csv("TestGroups.csv", stringsAsFactors = FALSE) # Load in functional group information
+jobname <- "DATE_JOBNAME"  # This is the job name used on the HPC queue, and also to save the run: Recommend: YYYYMMDD_AbbrevExperimentName.
+enviro_row <- 1 # Which row of the environmental data do you want to run if HPC=FALSE.
+
+HPC <- FALSE # Is this being run on a HPC for all cells or will we manually choose the row of the enviro_data to be used.
+SaveTimeSteps <- TRUE # Should we save all time steps. This can be very large if tmax is large
+
+Groups <- read.csv("TestGroups.csv", stringsAsFactors = FALSE) # Load in functional group information. This can be edited directly.
 
 ### No need to change anything below here.
 if (HPC == TRUE){
   ID <- as.integer(Sys.getenv('PBS_ARRAY_INDEX')) # Get the array run number on HPC
-  } else {
-    ID <- enviro_row
-  }
+} else {
+  ID <- enviro_row
+}
 ID_char <- sprintf("%04d",ID) # Set the ID as a 4 digit character so it will sort properly
 
 input_params <- enviro_data[ID,]
@@ -33,4 +47,22 @@ out$model$model_runtime <- system.time(
   out <- fZooMSS_Model(input_params, Groups, SaveTimeSteps)
 )
 
+# Save the output if you want
 saveRDS(out, file = paste0("RawOutput/", jobname, "_", ID_char,".RDS"))
+
+
+## Plotting
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tibble)
+source("fZooMSS_Plot.R")
+
+(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out))
+(ggPPMR <- fZooMSS_Plot_PPMR(out))
+
+## If you have saved the timesteps you can plot the timeseries
+(ggAbundTS <- fZooMSS_Plot_AbundTimeSeries(out))
+(ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out))
+(ggPredTS <- fZooMSS_Plot_PredTimeSeries(out))
+

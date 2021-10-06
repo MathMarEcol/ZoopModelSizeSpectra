@@ -1,5 +1,4 @@
-# Model code for Zooplankton Model of Size Spectrum (ZooMSS v2)
-
+# Model code for Zooplankton Model of Size Spectrum (ZooMSS)
 
 
 ## Overview of ZooMSS
@@ -38,6 +37,24 @@ ZooMSS requires two input files:
 
 ### Running
 To run the model, you simply need to provide the relevent information in Setup_RUN_NAME.R and run the script.
+
+### Plotting
+Besides writing your own plotting routines, you can now easily plot the overall species-resolved size-spectra and the PPMRs.
+Run using:    
+* `gg <- ZooMSS_Plot_SizeSpectra(dat)`    
+* `gg <- ZooMSS_Plot_PPMR(dat)`    
+
+If you have saved the timesteps you can plot the timeseries:    
+* `gg <- ZooMSS_Plot_AbundTimeSeries(dat)`  
+* `gg <- ZooMSS_Plot_GrowthTimeSeries(dat)`   
+* `gg <- ZooMSS_Plot_PredTimeSeries(dat)` 
+* `gg_list <- fZooMSS_Plot_RuntimeAveraging(file_name)`   
+* `fZooMSS_Plot_Wavelet(file_name, species_name)`   
+
+where `dat` is the model output list, and `gg` is a ggplot output from the plotting routines.
+
+### ZooMSS Dashboard
+Assuming you have saved all the time-steps (using `SaveTimeSteps <- TRUE`) you can explore the output using our newly created **ZooMSS Dashboard**. To access, go here: https://jaseeverett.shinyapps.io/ZooMSS_Dashboard/. Please drop us a line with any comments or ideas.
 
 ## Publications
 
