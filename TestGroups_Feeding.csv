@@ -1,0 +1,9 @@
+Species,Type,FeedType,Prop,W0,Wmax,Wmat,SearchCoef,SearchExp,PPMRscale,PPMR,FeedWidth,GrossGEscale,Carbon,Repro,Fmort,Fmort_W0,Fmort_Wmax,PlotColour
+Flagellates,Zooplankton,Heterotroph,0.1,-10.7,-6.8,-8.8,640,0.8,1.5,NA,0.36,2.5,0.15,0,0,-8.8,-6.8,seagreen3
+Ciliates,Zooplankton,Heterotroph,0.1,-9.3,-6.3,-8.3,640,0.8,0.04,NA,0.47,2.5,0.15,0,0,-8.3,-6.3,seagreen4
+Omnivores,Zooplankton,Omnivore,0.1,-7.5,0.2,-3,640,0.8,-1.25,NA,0.7,2.5,0.12,0,0,-3,0.2,cornflowerblue
+FilterFeeders,Zooplankton,FilterFeeder,0.1,-6.4,1.4,-2,640,0.8,-2.85,NA,0.7,2.5,0.02,0,0,-2,1.4,lightgoldenrod3
+Carnivores,Zooplankton,Carnivore,0.1,-7.5,2,-2.5,640,0.8,1,NA,0.45,2.5,0.08,0,0,-2.5,2,firebrick1
+Fish_Small,Fish,Carnivore,NA,-3,2,0,640,0.8,NA,100,1.3,2.5,0.1,0,0,0,2,lightcoral
+Fish_Med,Fish,Carnivore,NA,-3,4,2,640,0.8,NA,100,1.3,2.5,0.1,0,0,2,4,coral3
+Fish_Large,Fish,Carnivore,NA,-3,7,4,640,0.8,NA,100,1.3,2.5,0.1,0,0,4,7,coral4
