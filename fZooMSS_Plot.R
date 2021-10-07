@@ -28,7 +28,7 @@ fZooMSS_Plot_PPMR <- function(in_dat){
                                    "FilterFeeders" = in_dat$model$param$Groups$PlotColour[in_dat$model$param$Groups$Species=="FilterFeeders"]))
 }
 
-# Plot Size Spectra
+# Plot Abundance Size Spectra
 fZooMSS_Plot_SizeSpectra <- function(dat) {
   species <- dat$abundances
 
@@ -47,6 +47,27 @@ fZooMSS_Plot_SizeSpectra <- function(dat) {
     scale_color_manual(values = dat$model$param$Groups$PlotColour) +
     theme_bw() +
     labs(subtitle = "Abundance Spectrum")
+}
+
+# Plot Biomass Size Spectra
+fZooMSS_Plot_BiomassSizeSpectra <- function(dat) {
+  species <- sweep(dat$abundances, 2, dat$model$param$w, "*")
+  
+  rownames(species) <- dat$model$param$Groups$Species
+  species <- as_tibble(t(species))
+  
+  species <- species %>%
+    add_column("Weight" = dat$model$param$w) %>%
+    pivot_longer(-Weight, names_to = "Species", values_to = "Biomass") %>%
+    filter(Biomass > 0) %>%
+    mutate(Species = factor(Species, levels = dat$model$param$Groups$Species))
+  
+  gg <- ggplot(data = species, mapping = aes(x = log10(Weight), y = log10(Biomass), colour = Species)) +
+    geom_line() +
+    geom_point() +
+    scale_color_manual(values = dat$model$param$Groups$PlotColour) +
+    theme_bw() +
+    labs(subtitle = "Biomass Spectrum")
 }
 
 # Plot abundance by time
