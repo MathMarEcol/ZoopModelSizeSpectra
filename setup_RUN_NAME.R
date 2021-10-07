@@ -80,10 +80,10 @@ ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out) # growth rate time series
 
 
 # Get abundance by size class
-Ssize <- fZooMSS_SumSpecies(list(out$abundances))[[1]]
+Ssize <- fZooMSS_SumSpecies(list(out$abundances))[[1]] # Function returns a list so we get the first
 
 # Get abundance by species
-Sspecies <- fZooMSS_SumSize(list(out$abundances))[[1]]
+Sspecies <- fZooMSS_SumSize(list(out$abundances))[[1]] # Function returns a list so we get the first
 
 # Get the wet weight of each size class
 WWsize <- fZooMSS_SizeBiomass(list(out$abundances), out$model)[[1]] # Function returns a list so we get the first
