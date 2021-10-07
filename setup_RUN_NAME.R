@@ -76,7 +76,7 @@ source("fZooMSS_Plot.R")
 ggBiomassTS <- fZooMSS_Plot_BiomassTimeSeries(out)  # biomass time series
 ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out) # growth rate time series
 #ggPredTS <- fZooMSS_Plot_PredTimeSeries(out) # predation mortality time series
-(ggAbundTS / ggGrowthTS) + plot_layout(guides = "collect") # plot them on top of each other
+(ggBiomassTS / ggGrowthTS) + plot_layout(guides = "collect") # plot them on top of each other
 
 
 # Get abundance by size class
