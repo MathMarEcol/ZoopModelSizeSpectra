@@ -66,8 +66,8 @@ source("fZooMSS_Plot.R")
 (ggPP <- fZooMSS_PlotPredPrey(Groups))
 
 # Plot Size Spectra
-(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)) # abundance size spectra
-#(ggBiomassSizeSpec <- fZooMSS_Plot_BiomassSizeSpectra(out)) # biomass size spectra
+#(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)) # abundance size spectra
+(ggBiomassSizeSpec <- fZooMSS_Plot_BiomassSizeSpectra(out)) # biomass size spectra
 
 # Plot PPMRs
 (ggPPMR <- fZooMSS_Plot_PPMR(out))
