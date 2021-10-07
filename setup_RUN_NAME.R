@@ -7,21 +7,21 @@
 ##   https://github.com/MathMarEcol/ZooMSS_Dashboard
 ##
 ##
-## Code written by Dr Jason Everett (UQ/UNSW/CSIRO), Dr Ryan Heneghan (QUT) and Mr Patrick Sykes (U)
-## Last updated 6th October 2021
+## Code written by Dr Jason Everett (UQ/UNSW/CSIRO), Dr Ryan Heneghan (QUT) and Mr Patrick Sykes (UQ)
+## Last updated 7th October 2021
 
 
 # library(Rcpp) # Only needed if we are running with Rcpp code.
 source("fZooMSS_Model.R") #source the model code
-source("fZooMSS_Xtras.R")
+source("fZooMSS_Xtras.R") #source the helper functions
 
 # enviro_data <- readRDS("envirodata_fiveDeg_20200317.rds") # Load environmental data.
 
 # You can also create your own environmental data using the below.
 enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = c(1, 2, 3), # Increment cellID so the savename changes
-                                                      sst = c(5, 5, 5),
-                                                      chlo = c(0.1, 0.5, 2),
-                                                      dt = c(0.01, 0.01, 0.01)))
+                                                      sst = c(5, 5, 5), # sea surface temperature
+                                                      chlo = c(0.1, 0.5, 2), # log10(chlorophyll-a concentration)
+                                                      dt = c(0.01, 0.01, 0.01))) # time step to use (in years)
 
 enviro_data$tmax <- 100 # Set length of simulation (years)
 
@@ -42,10 +42,10 @@ if (HPC == TRUE){
 }
 ID_char <- sprintf("%04d",ID) # Set the ID as a 4 digit character so it will sort properly
 
-input_params <- enviro_data[ID,]
+input_params <- enviro_data[ID,] # pick out the environmental data to use in the model
 
-out$model$model_runtime <- system.time(
-  out <- fZooMSS_Model(input_params, Groups, SaveTimeSteps)
+out$model$model_runtime <- system.time(  # saves the time taken to run the model
+  out <- fZooMSS_Model(input_params, Groups, SaveTimeSteps) # run the model with selected parameters
 )
 
 # Save the output if you want
@@ -66,16 +66,17 @@ source("fZooMSS_Plot.R")
 (ggPP <- fZooMSS_PlotPredPrey(Groups))
 
 # Plot Size Spectra
-(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out))
+(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)) # abundance size spectra
+#(ggBiomassSizeSpec <- fZooMSS_Plot_BiomassSizeSpectra(out)) # biomass size spectra
 
 # Plot PPMRs
 (ggPPMR <- fZooMSS_Plot_PPMR(out))
 
-## If you have saved the timesteps you can plot the timeseries
-ggAbundTS <- fZooMSS_Plot_AbundTimeSeries(out)
-ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out)
-ggPredTS <- fZooMSS_Plot_PredTimeSeries(out)
-(ggAbundTS / ggGrowthTS / ggPredTS) + plot_layout(guides = "collect")
+## If you have saved the time steps you can plot the time series
+ggBiomassTS <- fZooMSS_Plot_BiomassTimeSeries(out)  # biomass time series
+ggGrowthTS <- fZooMSS_Plot_GrowthTimeSeries(out) # growth rate time series
+#ggPredTS <- fZooMSS_Plot_PredTimeSeries(out) # predation mortality time series
+(ggAbundTS / ggGrowthTS) + plot_layout(guides = "collect") # plot them on top of each other
 
 
 # Get abundance by size class
