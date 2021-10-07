@@ -107,33 +107,34 @@ fZooMSS_MakeDietTibble <- function(mat, mdl){
 }
 
 
-PPMR_plot = function(dat){
+PPMR_plot = function(in_dat){
 
-  min_size = min(dat$model$param$Groups$W0) # smallest size class
-  max_size = max(dat$model$param$Groups$Wmax) # largest size class
-  w = 10^(seq(from = min_size, to = max_size, 0.1)) # all size classes
+  min_size = min(in_dat$model$param$Groups$W0) # smallest size class
+  max_size = max(in_dat$model$param$Groups$Wmax) # largest size class
+  # w = 10^(seq(from = min_size, to = max_size, 0.1)) # all size classes
 
   # Calculate PPMR (beta) table, where dim1 = group, dim2 = body size with
   # value being PPMR for that body size (this is not realised PPMR - not
   # emergent from diet but calculated from m-values and Wirtz, 2012 equation)
-  D.z = 2*(3*(w)*1e12/(4*pi))^(1/3) # convert body mass g to ESD (um)
-  zoo_m = dat$model$param$Groups$PPMRscale # pull out PPMR scaling values from parameter table
+  D.z = 2*(3*(in_dat$model$param$w)*1e12/(4*pi))^(1/3) # convert body mass g to ESD (um)
+  zoo_m = in_dat$model$param$Groups$PPMRscale # pull out PPMR scaling values from parameter table
   betas =  log10(t(sapply(zoo_m, function(x){(exp(0.02*log(D.z)^2 - x + 1.832))^3}))) # Convert m to betas, using Wirtz 2012 equation
-  betas = betas[-which(is.na(dat$model$param$Groups$PPMRscale)),] # remove fish rows
+  betas = betas[-which(is.na(in_dat$model$param$Groups$PPMRscale)),] # remove fish rows
 
   ## Modify beta matrix for larvaceans and salps - all size classes for these groups feed on same prey, so log10PPMR increases by 0.1 for each 0.1 log10 size interval
-  betas[which(dat$model$param$Groups$Species=="Larvaceans"),45:75] <- betas[which(dat$model$param$Groups$Species=="Larvaceans"),44] + seq(0.1,3.1,0.1) # Larvaceans (index 44 in w vector is smallest size class, 75 is maximum size class)
-  betas[which(dat$model$param$Groups$Species=="Salps"),61:121] <- betas[which(dat$model$param$Groups$Species=="Salps"),61] + seq(0.1,6.1,0.1) # Larvaceans (index 61 in w vector is smallest size class, 121 is maximum size class
+  betas[which(in_dat$model$param$Groups$Species=="Larvaceans"),45:75] <- betas[which(in_dat$model$param$Groups$Species=="Larvaceans"),44] + seq(0.1,3.1,0.1) # Larvaceans (index 44 in w vector is smallest size class, 75 is maximum size class)
+  betas[which(in_dat$model$param$Groups$Species=="Salps"),61:121] <- betas[which(in_dat$model$param$Groups$Species=="Salps"),61] + seq(0.1,6.1,0.1) # Larvaceans (index 61 in w vector is smallest size class, 121 is maximum size class
 
   # Calculate ave abundances across oligo/eutro grid squares, then calculate ave
   # biomass and proportion of total zoo biomass that is from each group size class
 
-  ave = matrix(0, nrow = dim(dat$model$param$Groups)[1], ncol = length(w))
-  for(i in 1:length(dat$abundances)){
-    ave = ave + dat$abundances[[i]]/length(dat$abundances)
-  }
-  ave_biom = sweep(ave, 2, w, "*") # Calculate oligo biomass for zoo groups
-  ave_biom = ave_biom[-which(is.na(dat$model$param$Groups$PPMRscale)),] # remove rows for fish
+  # ave = matrix(0, nrow = dim(in_dat$model$param$Groups)[1], ncol = length(in_dat$model$param$w))
+  # for(i in 1:length(in_dat$abundances)){
+  #   ave = ave + in_dat$abundances[[i]]/length(in_dat$abundances)
+  # }
+
+  ave_biom = sweep(in_dat$abundances, 2, in_dat$model$param$w, "*") # Calculate biomass for zoo groups
+  ave_biom = ave_biom[-which(is.na(in_dat$model$param$Groups$PPMRscale)),] # remove rows for fish
   beta_props = ave_biom/sum(ave_biom) # Calculate fraction of zoo biomass in each group, in each size class
 
   out <- list()
@@ -146,7 +147,7 @@ PPMR_plot = function(dat){
   out <- tibble("x" = temp$x, "y" = temp$y, "mn_beta" = sum(beta_props*betas))
 
   spbeta_props = ave_biom/rowSums(ave_biom) # Species specific proportions
-  spPPMR <- tibble("Species" = as.factor(dat$model$param$Groups$Species[-which(is.na(dat$model$param$Groups$PPMRscale))]), "Betas" = rowSums(spbeta_props*betas), "y" = NA) # Get species-specific PPMR
+  spPPMR <- tibble("Species" = as.factor(in_dat$model$param$Groups$Species[-which(is.na(in_dat$model$param$Groups$PPMRscale))]), "Betas" = rowSums(spbeta_props*betas), "y" = NA) # Get species-specific PPMR
 
   for (s in 1:length(spPPMR$Species)){
     spPPMR$y[s] <- out$y[which.min(abs(out$x - spPPMR$Betas[s]))]
@@ -211,14 +212,16 @@ fZooMSS_CalculatePhytoParam = function(df){ # chlo is chlorophyll concentration 
 ## TROPHIC LEVEL FUNCTION, takes a 12x15 matrix of diets (predators are rows, prey are columns) from ZooMSS and calculates
 ## trophic levels of predator groups.
 
-fZooMSS_TrophicLevel <- function(diet_matrix){
+fZooMSS_TrophicLevel <- function(in_dat){
+
+  diet_matrix <- in_dat$diets
 
   phyto_tl <- 1 # Phyto TL is 1
-  start_dynam_tl <- rep(2,12) # Start TL - start at 2 for all zoo and fish groups
+  start_dynam_tl <- rep(2,in_dat$model$param$ngrps) # Start TL - start at 2 for all zoo and fish groups
 
   # To be truly generic I need to fix these up with testgroup references #TODO
   curr_phyto_diet <- rowSums(diet_matrix[,1:3]) # Current phyto diet
-  curr_dynam_diet <- diet_matrix[,4:15] # Current heterotroph diet
+  curr_dynam_diet <- diet_matrix[,4:(3 + in_dat$model$param$ngrps)] # Current heterotroph diet
 
   total_diet <- curr_phyto_diet + rowSums(curr_dynam_diet) # Total consumption, in grams wet weight, by pred group
 
@@ -230,14 +233,15 @@ fZooMSS_TrophicLevel <- function(diet_matrix){
 
   while(eps_diff > 0.01 & n < 100){ # Gauss-Siedel iterative loop to calculate trophic levels, stops when converged or number of loops reaches 100
     n <- n + 1
-    eps <- start_dynam_tl[10]
+    # eps <- start_dynam_tl[10] # I think the 10 corresponds to first fish level hence the change below.
+    eps <- start_dynam_tl[in_dat$model$param$num_zoo + 1]
 
     calc_dynam_tl = sweep(curr_dynam_frac, 2, start_dynam_tl, '*')
     calc_dynam_tl[which(is.nan(calc_dynam_tl) == TRUE)] = 0 # Get rid of nans - these are entrys where there is no biomass for a given group
     #calc_dynam_tl[which(calc_dynam_tl == Inf)] = 0 # Get rid of infinite values, occurs with asymptotic size bins, because there is no biomass to have a diet in those bins
     start_dynam_tl = 1+phyto_tl*curr_phyto_frac + rowSums(calc_dynam_tl) # Update trophic level matrix
 
-    eps_diff <- abs(eps - start_dynam_tl[10])
+    eps_diff <- abs(eps - start_dynam_tl[in_dat$model$param$num_zoo + 1])
   } # End Gauss-Siedel loop
 
   return(start_dynam_tl)
