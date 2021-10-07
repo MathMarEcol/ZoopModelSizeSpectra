@@ -18,20 +18,21 @@ source("fZooMSS_Xtras.R")
 # enviro_data <- readRDS("envirodata_fiveDeg_20200317.rds") # Load environmental data.
 
 # You can also create your own environmental data using the below.
-enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = 1, # Increment cellID so the savename changes
-                                                      sst = 5,
-                                                      chlo = 2,
-                                                      dt = 0.01))
+enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = c(1, 2, 3), # Increment cellID so the savename changes
+                                                      sst = c(5, 5, 5),
+                                                      chlo = c(0.1, 0.5, 2),
+                                                      dt = c(0.01, 0.01, 0.01)))
 
 enviro_data$tmax <- 100 # Set length of simulation (years)
 
 jobname <- "DATE_JOBNAME"  # This is the job name used on the HPC queue, and also to save the run: Recommend: YYYYMMDD_AbbrevExperimentName.
-enviro_row <- 1 # Which row of the environmental data do you want to run if HPC=FALSE.
-
 HPC <- FALSE # Is this being run on a HPC for all cells or will we manually choose the row of the enviro_data to be used.
 SaveTimeSteps <- TRUE # Should we save all time steps. This can be very large if tmax is large
+Groups <- read.csv("TestGroups_Feeding.csv", stringsAsFactors = FALSE) # Load in functional group information. This can be edited directly.
+# Groups <- read.csv("TestGroups.csv", stringsAsFactors = FALSE) # Load in functional group information. This can be edited directly.
 
-Groups <- read.csv("TestGroups.csv", stringsAsFactors = FALSE) # Load in functional group information. This can be edited directly.
+
+enviro_row <- 1 # Which row of the environmental data do you want to run if HPC=FALSE.
 
 ### No need to change anything below here.
 if (HPC == TRUE){
@@ -62,13 +63,13 @@ source("fZooMSS_Plot.R")
 
 # Plot predator-prey
 # Have a look at the predator-prey interactions
-ggPP <- fZooMSS_PlotPredPrey(Groups)
+(ggPP <- fZooMSS_PlotPredPrey(Groups))
 
 # Plot Size Spectra
-ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out)
+(ggSizeSpec <- fZooMSS_Plot_SizeSpectra(out))
 
 # Plot PPMRs
-ggPPMR <- fZooMSS_Plot_PPMR(out)
+(ggPPMR <- fZooMSS_Plot_PPMR(out))
 
 ## If you have saved the timesteps you can plot the timeseries
 ggAbundTS <- fZooMSS_Plot_AbundTimeSeries(out)
@@ -93,4 +94,4 @@ WWspecies <- fZooMSS_SpeciesBiomass(list(out$abundances), out$model)[[1]] # Func
 C <- fZooMSS_SpeciesCarbonBiomass(list(out$abundances), out$model)[[1]] # Function returns a list so we get the first
 
 # Get the trophic level of each group
-TL <- fZooMSS_TrophicLevel(out$diets)
+TL <- fZooMSS_TrophicLevel(out)
