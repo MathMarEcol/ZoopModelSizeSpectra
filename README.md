@@ -60,7 +60,7 @@ Assuming you have saved all the time-steps (using `SaveTimeSteps <- TRUE`) you c
 
 1. Heneghan, R.F., Everett, J.D., Blanchard, J.L., Richardson, A.J., 2016. Zooplankton Are Not Fish: Improving Zooplankton Realism in Size-Spectrum Models Mediates Energy Transfer in Food Webs. Front. Mar. Sci. 3, 1–15. https://doi.org/10.3389/fmars.2016.00201
 
-2. Heneghan, R.F., Everett, J.D., Sykes, P., Batten, S.D., Edwards, M., Takahashi, K., Suthers, I.M.,  Blanchard, J.L., Richardson, A.J., in review, A global size-spectrum model of the marine ecosystem that resolves zooplankton composition. Ecological Modelling
+2. Heneghan, R.F., Everett, J.D., Sykes, P., Batten, S.D., Edwards, M., Takahashi, K., Suthers, I.M.,  Blanchard, J.L., Richardson, A.J., 2020. A global size-spectrum model of the marine ecosystem that resolves zooplankton composition. Ecological Modelling 435, 109265. https://doi.org/10.1016/j.ecolmodel.2020.109265
 
 
 ## Getting Help
