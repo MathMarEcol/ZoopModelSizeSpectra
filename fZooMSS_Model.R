@@ -1,4 +1,4 @@
-fZooMSS_Model <- function(input_params, Groups, SaveTimeSteps){
+fZooMSS_Model <- function(input_params, Groups, SaveTimeSteps = FALSE){
 
   source("fZooMSS_Params.R")
   source("fZooMSS_Setup.R")
