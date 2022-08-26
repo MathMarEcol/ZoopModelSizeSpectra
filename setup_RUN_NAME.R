@@ -20,7 +20,7 @@ source("fZooMSS_Xtras.R") #source the helper functions
 # You can also create your own environmental data using the below.
 enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = c(1, 2, 3), # Increment cellID so the savename changes
                                                       sst = c(5, 5, 5), # sea surface temperature
-                                                      chlo = c(0.1, 0.5, 2), # log10(chlorophyll-a concentration)
+                                                      chlo = c(0.1, 0.5, 2), # Chlorophyll-a concentration
                                                       dt = c(0.01, 0.01, 0.01))) # time step to use (in years)
 
 enviro_data$tmax <- 100 # Set length of simulation (years)

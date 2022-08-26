@@ -25,7 +25,7 @@ source("fZooMSS_Xtras.R") # Source the helper functions
 # Set up environmental data
 enviro_data <- fZooMSS_CalculatePhytoParam(data.frame(cellID = 1, # Increment cellID so the savename changes
                                                       sst = 15, # sea surface temperature
-                                                      chlo = 0.2, # log10(chlorophyll-a concentration)
+                                                      chlo = 0.2, # Chlorophyll-a concentration
                                                       dt = 0.01)) # time step to use (in years)
 
 SaveTimeSteps <- TRUE # Should we save all time steps. This can be very large if tmax is large
